@@ -1,9 +1,11 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSqlQuery>
 #include <QDebug>
+#include <QMessageBox>
+#include "filecommand.h"
 
-extern QSqlQuery query;
+//Bug
+//1、同目录下如已有同名解压好的文件，程序将死循环
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,10 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     initPassWordListModel();
+    setWindowTitle("自动密码解压");
+    setWindowIcon(QIcon(":/i/zip.ico"));
     //process.start("& 'C:/Program Files/7-Zip/7z.exe' x -p'acg12.us' 'C:/Users/29856/Desktop/411.rar'");
-    connect(&process,&QProcess::readyReadStandardOutput,this,&MainWindow::readyReadStandardOutput);
-    process.execute("\"C:/Program Files/7-Zip/7z.exe\" x -pacg12.us C:/Users/29856/Desktop/411.rar");
-
+    //connect(&process,&QProcess::readyReadStandardOutput,this,&MainWindow::readyReadStandardOutput);
+    //process.start("\"C:/Program Files/7-Zip/7z.exe\" x -p1213 C:/Users/29856/Desktop/ceshi.7z");
 }
 
 MainWindow::~MainWindow()
@@ -25,6 +28,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButtonSavePassWord_clicked()
 {
     passWordModel->submitAll();
+    passWordModel->select();
 }
 
 void MainWindow::on_pushButtonAdd_clicked()
@@ -35,11 +39,6 @@ void MainWindow::on_pushButtonAdd_clicked()
 void MainWindow::on_pushButtonDelete_clicked()
 {
     passWordModel->removeRow(ui->tableView->currentIndex().row());
-}
-
-void MainWindow::readyReadStandardOutput()
-{
-    qDebug()<<process.readAll();
 }
 
 void MainWindow::initPassWordListModel()
@@ -55,24 +54,3 @@ void MainWindow::initPassWordListModel()
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
-QStringList MainWindow::getPassWordList()
-{
-    QStringList passWordList;
-    query.exec("select * from passlist");
-    while(query.next()){
-        passWordList.append(query.value(1).toString());
-    }
-    return passWordList;
-}
-
-void MainWindow::unZip()
-{
-    QStringList passWordList = getPassWordList();
-
-    foreach (auto pass, passWordList) {
-        QString program = "C:/Program Files/7-Zip/7z.exe";
-        QStringList list("x -p'acg12.us' 'C:/Users/29856/Desktop/411.rar'");
-        process.start(program,list);
-    }
-    //7z x C:\Users\29856\Desktop\test.zip -p123
-}

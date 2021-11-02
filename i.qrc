@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>i/zip.ico</file>
+    </qresource>
+</RCC>

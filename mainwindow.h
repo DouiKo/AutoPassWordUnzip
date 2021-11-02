@@ -24,17 +24,11 @@ private slots:
 
     void on_pushButtonDelete_clicked();
 
-    void readyReadStandardOutput();
-
 private:
     void initPassWordListModel();
 
-    QStringList getPassWordList();
-
-    void unZip();
-
 private:
-    QProcess process;
+
     QSqlTableModel *passWordModel;
     Ui::MainWindow *ui;
 };
