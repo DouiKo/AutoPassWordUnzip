@@ -6,12 +6,15 @@
 #include <QProcess>
 #include <QVariant>
 #include <QMessageBox>
+#include <QSettings>
 
 class FileCommand : public QObject
 {
     Q_OBJECT
 public:
     FileCommand();
+
+    void init7zipPath();
 
     QStringList getPassWordList();
 

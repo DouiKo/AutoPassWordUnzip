@@ -15,9 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initPassWordListModel();
     setWindowTitle("自动密码解压");
     setWindowIcon(QIcon(":/i/zip.ico"));
-    //process.start("& 'C:/Program Files/7-Zip/7z.exe' x -p'acg12.us' 'C:/Users/29856/Desktop/411.rar'");
-    //connect(&process,&QProcess::readyReadStandardOutput,this,&MainWindow::readyReadStandardOutput);
-    //process.start("\"C:/Program Files/7-Zip/7z.exe\" x -p1213 C:/Users/29856/Desktop/ceshi.7z");
 }
 
 MainWindow::~MainWindow()
